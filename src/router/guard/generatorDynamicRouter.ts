@@ -6,6 +6,7 @@
 
 import { RouteRecordRaw } from 'vue-router'
 import Layout from '@/layout/index.vue'
+import { i18n } from '@/lang'
 
 /** 导入模块 */
 const allPages = import.meta.glob('@/views/**/**/*.vue') // views 下的所有vue文件
@@ -71,9 +72,10 @@ function generatorSingleLevelRoute(page: SystemMenu): RouteRecordRaw {
 /** 生成树形接口 */
 const generateTree = (data: SystemMenu[]) => {
     if (!data || data.length === 0) return []
-    const obj: any = {} // 根据parentid 来保存他的所有下级
+    const obj: any = {} // 根据 parentId 来保存他的所有下级
     data.forEach((item) => {
         const { parentId } = item
+        // item.title = i18n.global.t(item.title)
         if (!obj[parentId]) {
             obj[parentId] = []
         }

@@ -4,7 +4,7 @@
             <i v-if="route.meta?.icon" class="flex-center mr-5px">
                 <Icon :name="(route.meta.icon as string)"></Icon>
             </i>
-            <span>{{ route.meta?.title }}</span>
+            <span>{{ generateTitle(route.meta?.title) }}</span>
         </template>
         <template v-for="sub in route.children" :key="sub.meta.id">
             <!-- 判断是否隐藏菜单 -->
@@ -14,7 +14,7 @@
                     v-if="sub.children && sub.children.length === 0"
                     :index="sub.meta?.id"
                 >
-                    {{ sub.meta?.title }}
+                    {{ generateTitle(sub.meta?.title) }}
                 </el-menu-item>
                 <!-- 三级菜单及n级菜单 -->
                 <sub-menu v-else :route="sub" />
@@ -26,6 +26,7 @@
 <script lang="ts" setup>
 import { RouteRecordRaw } from 'vue-router'
 import { Icon } from '@/components'
+import { generateTitle } from '../../utils/i18n'
 
 defineOptions({
     name: 'SubMenu'

@@ -12,7 +12,7 @@
                         refContextMenu?.openContextMenu(tab, tabViewContainer, $event)
                     "
                 >
-                    <span>{{ tab.meta?.title }}</span>
+                    <span>{{ generateTitle(tab.meta?.title) }}</span>
                     <Icon
                         v-if="!fixedTabs.includes(tab.path)"
                         name="ep:close"
@@ -31,6 +31,7 @@ import { onClickOutside } from '@vueuse/core'
 import { RouteRecordRaw } from 'vue-router'
 import { Icon } from '@/components'
 import contextMenu from './contextMenu.vue'
+import { generateTitle } from '../../utils/i18n'
 
 const route = useRoute()
 const router = useRouter()

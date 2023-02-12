@@ -4,7 +4,7 @@
             <el-breadcrumb-item v-if="item.meta?.title" :to="{ path: item.path }">
                 <div class="h-16px flex items-center">
                     <Icon v-if="item.meta?.icon" :name="item.meta.icon" />
-                    <span class="ml-5px">{{ item.meta?.title }}</span>
+                    <span class="ml-5px">{{ generateTitle(item.meta?.title) }}</span>
                 </div>
             </el-breadcrumb-item>
         </template>
@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { Icon } from '@/components'
+import { generateTitle } from '../../../utils/i18n'
 defineOptions({ name: 'Breadcrumb' })
 const route = useRoute()
 const appStore = useAppStore()

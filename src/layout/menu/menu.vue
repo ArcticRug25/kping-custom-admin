@@ -13,7 +13,7 @@
                     :index="routeItem.meta?.id"
                 >
                     <Icon :name="(routeItem.meta?.icon as string)" size="20" class="mr-5px" />
-                    <template #title>{{ routeItem.meta?.title }}</template>
+                    <template #title>{{ generateTitle(routeItem.meta?.title) }}</template>
                 </el-menu-item>
                 <sub-menu v-else :route="routeItem"></sub-menu>
             </template>
@@ -24,6 +24,7 @@
 import { Icon } from '@/components'
 import subMenu from './sub-menu.vue'
 import Logo from './logo.vue'
+import { generateTitle } from '../../utils/i18n'
 
 defineOptions({
     name: 'Menu'

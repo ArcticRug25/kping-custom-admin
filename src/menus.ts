@@ -2,7 +2,7 @@ export const menuInfos = [
     {
         id: -1,
         icon: 'ep:menu',
-        title: 'route.dashboard',
+        title: 'dashboard',
         componentName: 'DashBoard',
         parentId: 0,
         openType: 0,

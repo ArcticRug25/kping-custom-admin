@@ -7,10 +7,14 @@ import { setupRoute } from './router'
 import { setupDirective } from './core/directives'
 import setupI18n from './lang'
 
-const app = createApp(App)
-setupPinia(app)
-setupRoute(app)
-setupDirective(app)
-setupI18n(app)
+function bootstrap() {
+    const app = createApp(App)
+    setupPinia(app)
+    setupRoute(app)
+    setupDirective(app)
+    setupI18n(app)
 
-app.mount('#app')
+    app.mount('#app')
+}
+
+bootstrap()

@@ -2,7 +2,12 @@ export default {
     // 路由国际化
     route: {
         dashboard: 'Dashboard',
-        document: 'Document'
+        document: 'Document',
+        analysis: 'Analysis',
+        memberManage: 'Member Manage',
+        memberList: 'Member List',
+        voucherManage: 'Voucher Manage',
+        voucherList: 'Voucher List'
     },
     // 登录页面国际化
     login: {
@@ -17,5 +22,12 @@ export default {
         dashboard: 'Dashboard',
         logout: 'Logout',
         document: 'Document'
+    },
+    member: {
+        broadcast: 'broadcast',
+        distribute: 'distribute',
+        male: 'male',
+        female: 'female',
+        halal: 'halal'
     }
 }

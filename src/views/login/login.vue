@@ -33,7 +33,7 @@
                     <div
                         class="w-150px h-32px ml-34px border border-#DCDFE6 rounded-4px cursor-pointer"
                     >
-                        <img :src="code" class="wh-full" alt="" />
+                        <img :src="codeUrl" class="wh-full" @click="resetCode" />
                     </div>
                 </div>
             </el-form>
@@ -46,10 +46,10 @@
         </div>
     </div>
 </template>
+
 <script setup lang="ts">
 import { Hide, View } from '@element-plus/icons-vue'
 import loginBg from '@/assets/images/login-bg.png'
-import code from '@/assets/images/code.gif'
 const router = useRouter()
 interface FormData {
     /** 账号 */
@@ -70,6 +70,8 @@ const formData = reactive<FormData>({
 const passwordIsVisible = ref(false)
 const loading = ref(false)
 
+const codeUrl = ref<string>('/api/auth/code')
+
 const userStore = useUserStore()
 /** 登录 */
 const onLogin = async () => {
@@ -82,6 +84,10 @@ const onLogin = async () => {
     loading.value = true
     userStore.info.userName = 'admin'
     router.push({ path: '/dashboard' })
+}
+
+const resetCode = () => {
+    codeUrl.value = `${codeUrl.value}?${Math.random()}`
 }
 </script>
 <style lang="scss" scoped>

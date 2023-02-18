@@ -2,7 +2,7 @@
     <div class="logo">
         <Icon class="logo-icon" name="ep:element-plus" size="26" />
         <div v-show="!appStore.menuIsCollapse" class="logo-name pl-8px text-16px font-bold">
-            后台管理系统
+            KPing Customer Admin
         </div>
     </div>
 </template>

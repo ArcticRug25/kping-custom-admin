@@ -6,7 +6,6 @@
 
 import { RouteRecordRaw } from 'vue-router'
 import Layout from '@/layout/index.vue'
-import { i18n } from '@/lang'
 
 /** 导入模块 */
 const allPages = import.meta.glob('@/views/**/**/*.vue') // views 下的所有vue文件
@@ -75,7 +74,6 @@ const generateTree = (data: SystemMenu[]) => {
     const obj: any = {} // 根据 parentId 来保存他的所有下级
     data.forEach((item) => {
         const { parentId } = item
-        // item.title = i18n.global.t(item.title)
         if (!obj[parentId]) {
             obj[parentId] = []
         }

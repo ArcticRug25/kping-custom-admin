@@ -30,7 +30,10 @@
         <c-table :data="tableData" style="width: 100%">
             <template #table-header>
                 <el-button type="primary">
-                    <icon name="ep:plus">新增用户</icon>
+                    <icon name="ep:plus">{{ $t('member.broadcast') }}</icon>
+                </el-button>
+                <el-button type="primary">
+                    <icon name="ep:plus">{{ $t('member.distribute') }}</icon>
                 </el-button>
             </template>
             <el-table-column label="状态" prop="status" width="80"></el-table-column>

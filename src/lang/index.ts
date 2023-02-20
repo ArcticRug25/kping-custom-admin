@@ -5,7 +5,7 @@ import { localStorage } from '@/utils/storage'
 
 // 本地语言包
 import enLocale from './en'
-import zhCnLocale from './zh-cn'
+import zhCnLocale from './zh-CN'
 
 const messages = {
     'zh-cn': {
@@ -43,6 +43,11 @@ export const i18n = createI18n({
     locale: getLanguage(),
     messages
 })
+export function useI18n() {
+    return {
+        t: (str: string) => i18n.global.t(str)
+    }
+}
 
 export default function setupI18n(app: App) {
     app.use(i18n)

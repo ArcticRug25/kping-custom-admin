@@ -22,6 +22,7 @@ interface userStore {
     routes: RouteRecordRaw[]
     /** 动态路由 */
     dynamicRoute: (() => void)[]
+    token: string
 }
 
 export default defineStore({
@@ -32,6 +33,7 @@ export default defineStore({
             avatar: 'https://picsum.photos/200',
             userName: ''
         },
+        token: '',
         routes: [],
         originMenus: [],
         elementMenus: [],
@@ -65,7 +67,7 @@ export default defineStore({
     },
     persist: {
         key: 'user',
-        storage: sessionStorage,
+        storage: localStorage,
         paths: ['info']
     }
 })

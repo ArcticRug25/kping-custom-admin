@@ -1,4 +1,9 @@
 export default {
+    app: {
+        systemError: '系统出错',
+        loginExpire: '当前页面已失效，请重新登录',
+        tips: '提示'
+    },
     // 路由国际化
     route: {
         dashboard: '首页',

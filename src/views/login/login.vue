@@ -4,7 +4,7 @@
             <h2 class="text-size-32px text-center color-#232859 font-400">登录</h2>
             <el-form class="mt-40px" label-position="top">
                 <el-form-item label="用户名">
-                    <el-input v-model="formData.account" placeholder="请输入用户名"></el-input>
+                    <el-input v-model="formData.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
                     <el-input
@@ -50,18 +50,12 @@
 <script setup lang="ts">
 import { Hide, View } from '@element-plus/icons-vue'
 import loginBg from '@/assets/images/login-bg.png'
+import { LoginParams } from '@/api/model/accountModel'
+import { AuthApi } from '../../api/auth'
 const router = useRouter()
-interface FormData {
-    /** 账号 */
-    account: string
-    /** 密码 */
-    password: string
-    /** 验证码 */
-    code: string
-}
 
-const formData = reactive<FormData>({
-    account: 'admin',
+const formData = reactive<LoginParams>({
+    username: 'admin',
     password: 'admin',
     code: 'FFT7'
 })
@@ -70,12 +64,12 @@ const formData = reactive<FormData>({
 const passwordIsVisible = ref(false)
 const loading = ref(false)
 
-const codeUrl = ref<string>('/api/auth/code')
+const codeUrl = ref<string>(AuthApi.Code)
 
 const userStore = useUserStore()
 /** 登录 */
 const onLogin = async () => {
-    if (!formData.account) {
+    if (!formData.username) {
         return window.$message.warning('请输入账号')
     }
     if (!formData.password) {

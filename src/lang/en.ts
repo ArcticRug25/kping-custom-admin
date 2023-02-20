@@ -1,4 +1,9 @@
 export default {
+    app: {
+        systemError: 'System Error',
+        loginExpire: 'The current page is invalid, please log in again',
+        tips: 'Tips'
+    },
     // 路由国际化
     route: {
         dashboard: 'Dashboard',

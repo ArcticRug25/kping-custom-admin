@@ -6,6 +6,6 @@ export enum AuthApi {
     Code = '/api/auth/code'
 }
 
-export function AccountLogin(data: LoginParams) {
+export function accountLogin(data: LoginParams) {
     return http.post<GetAccountInfoModel>({ url: AuthApi.SignIn, data })
 }

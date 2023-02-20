@@ -7,17 +7,16 @@ export default defineConfig(({ command }) => {
         plugins: pluginsConfig(command === 'build'),
         resolve: {
             alias: {
-                '@': resolve(__dirname, 'src')
+                '@': resolve(__dirname, 'src'),
+                'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
             }
         },
         server: {
             proxy: {
                 '/api': {
-                    target: 'http://localhost:3001',
-                    changeOrigin: true,
-                    pathRewrite: {
-                        '^api/': ''
-                    }
+                    target: 'http://localhost:3001/',
+                    changeOrigin: true
+                    // rewrite: (path) => path.replace(/^\/api/, '')
                 }
             }
         },

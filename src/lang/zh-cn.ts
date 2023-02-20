@@ -19,7 +19,13 @@ export default {
         username: '用户名',
         password: '密码',
         login: '登 录',
-        code: '请输入验证码'
+        code: '请输入验证码',
+        forgetPassword: '忘记密码',
+        placeholder: {
+            code: '请输入验证码',
+            username: '请输入用户名',
+            password: '请输入密码'
+        }
     },
     navbar: {
         dashboard: '首页',

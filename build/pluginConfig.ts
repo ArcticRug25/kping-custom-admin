@@ -1,11 +1,11 @@
-import { PluginOption } from 'vite'
-import vueJsx from '@vitejs/plugin-vue-jsx'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import unocss from 'unocss/vite'
 import defineOptions from 'unplugin-vue-define-options/vite'
+import { PluginOption } from 'vite'
 import viteCompression from 'vite-plugin-compression'
 import eslintPlugin from 'vite-plugin-eslint'
-import { autoImport, autoComponent } from './plugins/autoComponent'
+import { autoComponent, autoImport } from './plugins/autoComponent'
 
 // eslint-disable-next-line no-unused-vars
 export function pluginsConfig(isBuild: boolean) {

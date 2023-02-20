@@ -20,7 +20,12 @@ export default {
         password: 'Password',
         login: 'Login',
         code: 'Verification Code',
-        icp: ''
+        forgetPassword: 'Forget password',
+        placeholder: {
+            code: 'Please enter the code',
+            username: 'Please enter the username',
+            password: 'Please enter the password'
+        }
     },
     // 导航栏国际化
     navbar: {

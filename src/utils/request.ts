@@ -45,7 +45,7 @@ export default class Axios {
     public post<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
         return this.request({
             ...config,
-            method: 'POST'
+            method: 'post'
         })
     }
 
@@ -145,7 +145,7 @@ export default class Axios {
                 return Promise.reject(new Error(msg || 'Error'))
             },
             (error) => {
-                const { code, msg } = error.response.data
+                const { code, message } = error
                 if (code === 'A0230') {
                     // token 过期
                     localStorage.clear() // 清除浏览器全部缓存
@@ -157,7 +157,7 @@ export default class Axios {
                         type: 'error'
                     })
                 }
-                return Promise.reject(new Error(msg || 'Error'))
+                return Promise.reject(new Error(message || 'Error'))
             }
         )
     }
@@ -166,7 +166,8 @@ export default class Axios {
 const http = new Axios({
     baseURL: import.meta.env.VITE_APP_BASE_API,
     timeout: 6 * 1000,
-    headers: { 'Content-Type': 'application/json;charset=utf-8' }
+    withCredentials: true
+    // headers: { 'Content-Type': 'application/json' }
 })
 
 export { http }

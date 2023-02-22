@@ -20,6 +20,7 @@ export default {
         password: '密码',
         login: '登 录',
         code: '请输入验证码',
+        codeError: '验证码错误',
         forgetPassword: '忘记密码',
         placeholder: {
             code: '请输入验证码',

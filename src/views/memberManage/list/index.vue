@@ -30,9 +30,9 @@
         <c-table :data="tableData" style="width: 100%">
             <template #table-header>
                 <el-button type="primary">
-                    <icon name="fa-bullhorn">{{ $t('member.broadcast') }}</icon>
+                    <icon name="fa-bullhorn">{{ t('member.broadcast') }}</icon>
                 </el-button>
-                <el-button type="primary"> {{ $t('member.distribute') }} </el-button>
+                <el-button type="primary"> {{ t('member.distribute') }} </el-button>
             </template>
             <el-table-column type="selection" width="55" />
             <el-table-column label="ID" prop="id" width="140"></el-table-column>
@@ -41,9 +41,9 @@
                 prop="name"
                 width="100"
                 :filters="[
-                    { text: $t('member.male'), value: '' },
-                    { text: $t('member.female'), value: '' },
-                    { text: $t('member.halal'), value: '' }
+                    { text: t('member.male'), value: '' },
+                    { text: t('member.female'), value: '' },
+                    { text: t('member.halal'), value: '' }
                 ]"
                 :filter-method="filterHandler"
             ></el-table-column>
@@ -57,6 +57,9 @@
 <script lang="ts" setup>
 import { TableColumnCtx } from 'element-plus'
 import { PageContainer, CTable, Icon } from '@/components'
+import { useI18n } from '../../../lang/index'
+
+const { t } = useI18n()
 const tableData = ref<any>([])
 for (let i = 0; i < 15; i++) {
     tableData.value.push({

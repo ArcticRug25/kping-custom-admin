@@ -4,7 +4,7 @@
             <h2 class="text-size-32px text-center color-#232859 font-400">
                 {{ t('login.login') }}
             </h2>
-            <el-form class="mt-40px" label-position="top">
+            <el-form class="mt-40px" label-position="top" @keyup.enter="onLogin">
                 <el-form-item :label="t('login.username')">
                     <el-input
                         v-model="formData.username"
@@ -44,22 +44,26 @@
                         <img :src="codeUrl" class="wh-full" @click="resetCode" />
                     </div>
                 </div>
+                <div class="text-right color-#999 mt-18px cursor-pointer">
+                    <el-link type="info" :underline="false" class="font-400">{{
+                        t('login.forgetPassword')
+                    }}</el-link>
+                </div>
+                <el-button
+                    v-loading="loading"
+                    type="primary"
+                    class="w-100% mt-40px"
+                    @click="onLogin"
+                >
+                    {{ t('login.login') }}
+                </el-button>
             </el-form>
-            <div class="text-right color-#999 mt-18px cursor-pointer">
-                <el-link type="info" :underline="false" class="font-400">{{
-                    t('login.forgetPassword')
-                }}</el-link>
-            </div>
-            <el-button v-loading="loading" type="primary" class="w-100% mt-40px" @click="onLogin">
-                {{ t('login.login') }}
-            </el-button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { Hide, View } from '@element-plus/icons-vue'
-import axios from 'axios'
 import { AuthApi } from '@/api/auth'
 import { LoginParams } from '@/api/model/accountModel'
 import loginBg from '@/assets/images/login-bg.png'
@@ -82,6 +86,10 @@ const codeUrl = ref<string>(AuthApi.Code)
 const { t } = useI18n()
 
 const userStore = useUserStore()
+
+const resetCode = () => {
+    codeUrl.value = `${codeUrl.value}?${Math.random()}`
+}
 /** 登录 */
 const onLogin = async () => {
     if (!formData.username) {
@@ -90,23 +98,14 @@ const onLogin = async () => {
     if (!formData.password) {
         return window.$message.warning(t('login.placeholder.password'))
     }
-    // await fetch('/api/auth/signin', {
-    //     method: 'POST',
-    //     body: JSON.stringify(formData),
-    //     headers: {
-    //         'content-type': 'application/json'
-    //     }
-    // }).then((res) => res.json())
-    const data = await accountLogin(formData)
-    console.log('🚀 ~ file: login.vue:93 ~ onLogin ~ data:', data)
-
-    // loading.value = true
-    // userStore.info.userName = 'admin'
-    // router.push({ path: '/dashboard' })
-}
-
-const resetCode = () => {
-    codeUrl.value = `${codeUrl.value}?${Math.random()}`
+    const [err, data] = await accountLogin(formData)
+    if (err) {
+        resetCode()
+    } else {
+        userStore.token = data.access_token
+        loading.value = true
+        router.push({ path: '/dashboard' })
+    }
 }
 </script>
 <style lang="scss" scoped>

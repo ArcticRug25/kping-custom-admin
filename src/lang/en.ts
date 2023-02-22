@@ -20,6 +20,7 @@ export default {
         password: 'Password',
         login: 'Login',
         code: 'Verification Code',
+        codeError: 'Verification Code Error',
         forgetPassword: 'Forget password',
         placeholder: {
             code: 'Please enter the code',

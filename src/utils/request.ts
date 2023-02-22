@@ -1,6 +1,7 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { AxiosRequestConfig } from 'axios'
 import axios from 'axios'
+import to from 'await-to-js'
 import { useUserStore } from '@/store' // pinia
 import { localStorage } from './storage'
 import { useI18n } from '../lang/index'
@@ -8,12 +9,6 @@ import { HTTP_CODE } from '@/enum/httpCode'
 import { ContentTypeEnum } from '@/enum/httpEnum'
 
 const { t } = useI18n()
-
-interface ResponseResult<T> {
-    code: number
-    message: string
-    data: T
-}
 
 interface UploadFileParams {
     // Other parameters
@@ -35,29 +30,29 @@ export default class Axios {
         this.interceptors()
     }
 
-    public get<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
-        return this.request({
+    public get<T>(config: AxiosRequestConfig) {
+        return this.request<T>({
             ...config,
             method: 'GET'
         })
     }
 
-    public post<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
-        return this.request({
+    public post<T>(config: AxiosRequestConfig) {
+        return this.request<T>({
             ...config,
             method: 'post'
         })
     }
 
-    public put<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
-        return this.request({
+    public put<T>(config: AxiosRequestConfig) {
+        return this.request<T>({
             ...config,
             method: 'PUT'
         })
     }
 
-    public delete<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
-        return this.request({
+    public delete<T>(config: AxiosRequestConfig) {
+        return this.request<T>({
             ...config,
             method: 'DELETE'
         })
@@ -98,13 +93,15 @@ export default class Axios {
         })
     }
 
-    public request<T, D = ResponseResult<T>>(config: AxiosRequestConfig): Promise<D> {
-        return new Promise((resolve, reject) => {
-            this.instance
-                .request<D>(config)
-                .then((res) => resolve(res.data))
-                .catch((err) => reject(err))
-        })
+    public request<T>(config: AxiosRequestConfig) {
+        return to<T>(
+            new Promise((resolve, reject) => {
+                this.instance
+                    .request<T>(config)
+                    .then((res) => resolve(res.data))
+                    .catch((err) => reject(err))
+            })
+        )
     }
 
     private interceptors() {
@@ -145,12 +142,18 @@ export default class Axios {
                 return Promise.reject(new Error(msg || 'Error'))
             },
             (error) => {
-                const { code, message } = error
+                const { code, message } = error.response?.data || error
+
                 if (code === 'A0230') {
                     // token 过期
                     localStorage.clear() // 清除浏览器全部缓存
                     window.location.href = '/' // 跳转登录页
                     ElMessageBox.alert(t('app.loginExpire'), t('app.tips'), {})
+                } else if (code === 422) {
+                    ElMessage({
+                        message: t('login.codeError'),
+                        type: 'error'
+                    })
                 } else {
                     ElMessage({
                         message: t('app.systemError'),

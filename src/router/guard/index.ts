@@ -9,7 +9,7 @@ export function createRouterGuard(router: Router) {
         NProgress.start()
         if (ALLOW_LIST.includes(to.path)) {
             next()
-        } else if (userStore.info.userName) {
+        } else if (userStore.token) {
             if (userStore.dynamicRoute.length === 0) {
                 const routes = await userStore.generateRoutes()
                 routes.forEach((r: RouteRecordRaw) => {

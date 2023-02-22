@@ -68,6 +68,6 @@ export default defineStore({
     persist: {
         key: 'user',
         storage: localStorage,
-        paths: ['info']
+        paths: ['info', 'token']
     }
 })

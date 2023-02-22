@@ -1,6 +1,6 @@
 export interface GetAccountInfoModel {
     username: string
-    password: string
+    access_token: string
 }
 
 export interface LoginParams {

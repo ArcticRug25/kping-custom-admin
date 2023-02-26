@@ -1,9 +1,3 @@
-<!--
- * @Author: PengYH
- * @Date: 2022-03-21
- * @Description: 用户信息
--->
-
 <template>
     <PageContainer>
         <template #header>
@@ -27,7 +21,7 @@
                 </el-form-item>
             </el-form>
         </template>
-        <c-table :data="tableData" style="width: 100%">
+        <c-table ref="memberTable" :data="tableData" style="width: 100%">
             <template #table-header>
                 <el-button type="primary">
                     <icon name="fa-bullhorn">{{ t('member.broadcast') }}</icon>
@@ -35,49 +29,107 @@
                 <el-button type="primary"> {{ t('member.distribute') }} </el-button>
             </template>
             <el-table-column type="selection" width="55" />
-            <el-table-column label="ID" prop="id" width="140"></el-table-column>
+            <el-table-column label="ID" prop="id" width="80"></el-table-column>
             <el-table-column
-                label="姓名"
-                prop="name"
-                width="100"
+                :label="t('member.table.name')"
+                prop="username"
+                width="150"
                 :filters="[
-                    { text: t('member.male'), value: '' },
-                    { text: t('member.female'), value: '' },
-                    { text: t('member.halal'), value: '' }
+                    { text: t('member.male'), value: Gender.Male },
+                    { text: t('member.female'), value: Gender.Female },
+                    { text: t('member.halal'), value: 'isHalal' }
                 ]"
                 :filter-method="filterHandler"
             ></el-table-column>
-            <el-table-column label="票券" prop="voucher" width="110"></el-table-column>
-            <el-table-column label="距离" prop="distance" width="200" sortable></el-table-column>
-            <el-table-column label="加入时间" prop="joinDate" sortable></el-table-column>
-            <el-table-column label="最近操作" prop="lastActionDate" sortable></el-table-column>
+            <el-table-column
+                :label="t('member.table.voucher')"
+                prop="voucher"
+                width="140"
+            ></el-table-column>
+            <el-table-column
+                :label="t('member.table.distance')"
+                prop="distance"
+                width="120"
+                sortable
+            ></el-table-column>
+            <el-table-column
+                :label="t('member.table.joinDate')"
+                prop="joinTime"
+                sortable
+            ></el-table-column>
+            <el-table-column
+                :label="t('member.table.lastAction')"
+                prop="lastAction"
+                sortable
+            ></el-table-column>
+            <template #table-footer>
+                <Pagination
+                    v-if="total > 0"
+                    v-model:page="queryParam.pageNum"
+                    v-model:limit="queryParam.pageSize"
+                    :total="total"
+                    @pagination="handleQuery"
+                />
+            </template>
         </c-table>
     </PageContainer>
 </template>
 <script lang="ts" setup>
 import { TableColumnCtx } from 'element-plus'
-import { PageContainer, CTable, Icon } from '@/components'
+import dayjs from 'dayjs'
+import { PageContainer, CTable, Icon, Pagination } from '@/components'
 import { useI18n } from '../../../lang/index'
-
+import { getMemberList } from '../../../api/member'
+import { Gender, Member, GetMemberListParam } from '../../../api/model/memberModel'
 const { t } = useI18n()
 const tableData = ref<any>([])
-for (let i = 0; i < 15; i++) {
-    tableData.value.push({
-        id: `sp20230208${i.toString().padStart(3, '0')}`,
-        name: `姓名${i + 1}`,
-        voucher: `account${i}`,
-        distance: '729220650@qq.com',
-        joinDate: '13212341253',
-        lastActionDate: '重庆市九龙坡区石桥铺街道'
-    })
+
+const state = reactive({
+    queryParam: {
+        pageNum: 1,
+        pageSize: 10
+    } as GetMemberListParam,
+    total: 0
+})
+
+const { queryParam, total } = toRefs(state)
+
+const memberTable = ref<any>(null)
+
+async function getMemberListByParam() {
+    const [_, memberList] = await getMemberList(state.queryParam)
+    if (memberList) {
+        state.total = memberList.total
+        memberList.rows.forEach((member) => {
+            member.joinTime = dayjs(member.joinTime).format('YYYY-MM-DD HH:mm:ss')
+            member.distance = Number(member.distance)
+            member.lastAction = dayjs(member.lastAction).format('YYYY-MM-DD HH:mm:ss')
+            member.discountNum = member.vouchers.reduce((num, voucher) => {
+                if (voucher.isDiscount) {
+                    num++
+                }
+                return num
+            }, 0)
+            member.unDiscountNum = member.vouchers.length - member.discountNum
+        })
+    }
+
+    return memberList?.rows
 }
 
-const filterHandler = (
-    value: string,
-    row: Record<string, unknown>,
-    column: TableColumnCtx<unknown>
-) => {
-    const property = column.property
-    return row[property] === value
+const handleQuery = async () => {
+    memberTable.value?.$refs.elTable.clearSort()
+    tableData.value = await getMemberListByParam()
 }
+
+const filterHandler = (value: string, row: Member) => {
+    if (value === 'isHalal') {
+        return row[value]
+    }
+    return row.gender === value
+}
+
+onMounted(async () => {
+    tableData.value = await getMemberListByParam()
+})
 </script>

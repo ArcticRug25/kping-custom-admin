@@ -1,12 +1,12 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
+import to from 'await-to-js'
 import type { AxiosRequestConfig } from 'axios'
 import axios from 'axios'
-import to from 'await-to-js'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '@/store' // pinia
-import { localStorage } from './storage'
-import { useI18n } from '../lang/index'
-import { HTTP_CODE } from '@/enum/httpCode'
 import { ContentTypeEnum } from '@/enum/httpEnum'
+import { HTTP_STATUS } from '@/enum/httpCode'
+import { HTTP_CODE } from '../enum/httpCode'
+import { useI18n } from '../lang/index'
 
 const { t } = useI18n()
 
@@ -131,7 +131,7 @@ export default class Axios {
         this.instance.interceptors.response.use(
             (response) => {
                 const { code, msg } = response.data
-                if (code === HTTP_CODE.success) {
+                if (code === HTTP_STATUS.success) {
                     return response.data
                 }
 
@@ -144,12 +144,13 @@ export default class Axios {
             (error) => {
                 const { code, message } = error.response?.data || error
 
-                if (code === 'A0230') {
+                if (code === HTTP_CODE.UNAUTHORIZED) {
                     // token 过期
-                    localStorage.clear() // 清除浏览器全部缓存
+                    const user = useUserStore()
+                    user.token = ''
                     window.location.href = '/' // 跳转登录页
                     ElMessageBox.alert(t('app.loginExpire'), t('app.tips'), {})
-                } else if (code === 422) {
+                } else if (code === HTTP_CODE.UNPROCESSABLE_ENTITY) {
                     ElMessage({
                         message: t('login.codeError'),
                         type: 'error'

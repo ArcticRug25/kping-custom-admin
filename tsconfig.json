@@ -16,7 +16,7 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "types": ["unplugin-vue-define-options/macros-global", "vite/client"]
+        "types": ["element-plus/global", "unplugin-vue-define-options/macros-global", "vite/client"]
     },
 
     "include": ["src", "typings/*.d.ts", "typings/**/*.d.ts"],

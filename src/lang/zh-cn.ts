@@ -38,6 +38,13 @@ export default {
         distribute: '分发',
         male: '男',
         female: '女',
-        halal: '清真'
+        halal: '清真',
+        table: {
+            name: '姓名',
+            voucher: '票券',
+            distance: '距离',
+            joinDate: '加入时间',
+            lastAction: '最近操作'
+        }
     }
 }

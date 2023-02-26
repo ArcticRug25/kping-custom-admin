@@ -5,13 +5,13 @@
             <slot name="table-header"></slot>
         </div>
         <!-- 表格区域 -->
-        <el-table v-bind="$attrs">
+        <el-table v-bind="$attrs" ref="elTable">
             <slot></slot>
         </el-table>
         <!-- 表格尾区域 -->
         <div class="c-table-footer">
             <slot name="table-footer">
-                <el-pagination
+                <!-- <el-pagination
                     v-if="pagination"
                     v-model:current-page="paginationState.currentPage"
                     v-model:page-size="paginationState.pageSize"
@@ -19,7 +19,7 @@
                     :total="paginationState.total"
                     layout="total, sizes, prev, pager, next, jumper"
                     class="mt-10px justify-end"
-                />
+                /> -->
             </slot>
         </div>
     </div>
@@ -28,11 +28,11 @@
 import { props } from './table-props'
 defineOptions({ name: 'CTable', inheritAttrs: false })
 defineProps(props)
-const paginationState = reactive({
-    currentPage: 1,
-    pageSize: 20,
-    total: 1000
-})
+// const paginationState = reactive({
+//     currentPage: 1,
+//     pageSize: 20,
+//     total: 1000
+// })
 </script>
 <style scoped>
 :deep(.el-table__header) th {

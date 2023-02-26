@@ -1,6 +1,8 @@
 <template>
     <el-config-provider :size="appStore.size" :locale="locale">
-        <router-view></router-view>
+        <Suspense>
+            <router-view></router-view>
+        </Suspense>
         <!-- 偏好设置 -->
         <preference-setting v-model="appStore.showPreferenceSetting" />
     </el-config-provider>

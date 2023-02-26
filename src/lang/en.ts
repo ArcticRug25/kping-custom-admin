@@ -39,6 +39,13 @@ export default {
         distribute: 'distribute',
         male: 'male',
         female: 'female',
-        halal: 'halal'
+        halal: 'halal',
+        table: {
+            name: 'Name',
+            voucher: 'Voucher',
+            distance: 'Distance',
+            joinDate: 'Join Date',
+            lastAction: 'Last Action'
+        }
     }
 }

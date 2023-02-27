@@ -1,6 +1,14 @@
 import { Voucher } from './voucherModel'
 import { PageParam } from './pageModel'
 
+export enum Gender {
+    Male = 'male',
+    Female = 'female',
+    Unknown = 'unknown'
+}
+
+export type MemberType = Gender | 'isHalal'
+
 export interface Member {
     distance: string | number
     gender: string
@@ -15,12 +23,6 @@ export interface Member {
     discountNum?: number
 }
 
-export enum Gender {
-    Male = 'male',
-    Female = 'female',
-    Unknown = 'unknown'
-}
-
 export interface GetMemberListParam extends PageParam {
     gender?: Gender
     isHalal?: '1' | '0'
@@ -30,4 +32,5 @@ export interface GetMemberListParam extends PageParam {
     actionEnd?: Date
     distanceFrom?: number
     distanceTo?: number
+    orderBy?: MemberType[]
 }

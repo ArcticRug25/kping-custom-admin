@@ -1,6 +1,7 @@
 import App from './App.vue'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/dist/index.css'
 import 'uno.css'
 import './styles/index.scss'
 import { setupRoute } from './router'

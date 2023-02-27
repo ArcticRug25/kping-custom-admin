@@ -1,8 +1,3 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-01-31
- * @Description:继承iconify/vue-ant design 的图标组件
--->
 <template>
     <div class="c-icon flex-y-center">
         <iconify v-bind="$attrs" :icon="name" :width="size" :height="size" :color="color"></iconify>

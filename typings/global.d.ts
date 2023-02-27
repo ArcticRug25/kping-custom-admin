@@ -1,14 +1,8 @@
-/*
- * @Author: PengYH
- * @Date: 2022-03-19
- * @Description:全局提示
- */
-
-interface Window {
-    $message: import('element-plus').Message
-    $messageBox: import('element-plus').IElMessageBox
-    $notifiCation: import('element-plus').Notify
-}
+// interface Window {
+//     $message: import('element-plus').Message
+//     $messageBox: import('element-plus').IElMessageBox
+//     $notifiCation: import('element-plus').Notify
+// }
 
 /** 系统菜单 */
 interface SystemMenu {

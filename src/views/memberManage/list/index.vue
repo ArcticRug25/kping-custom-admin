@@ -1,22 +1,76 @@
 <template>
     <PageContainer>
         <template #header>
-            <el-form inline>
-                <el-form-item label="用户姓名：">
-                    <el-input class="w-250px"></el-input>
+            <el-form ref="memberFilterFormRef" :rules="rules" :model="filterForm" inline>
+                <el-form-item :label="t('member.table.distance') + ':'" prop="distanceRange">
+                    <el-col :span="11">
+                        <el-select
+                            v-model="filterForm.distanceRange[0]"
+                            :placeholder="t('member.form.distanceFrom')"
+                        >
+                            <el-option
+                                v-for="item in leftDistanceOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                            />
+                        </el-select>
+                    </el-col>
+                    <el-col :span="2" class="text-center">
+                        <span class="text-gray-500">-</span>
+                    </el-col>
+                    <el-col :span="11">
+                        <el-select
+                            v-model="filterForm.distanceRange[1]"
+                            :placeholder="t('member.form.distanceTo')"
+                        >
+                            <el-option
+                                v-for="item in rightDistanceOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                            />
+                        </el-select>
+                    </el-col>
                 </el-form-item>
-                <el-form-item label="用户编号：">
-                    <el-input class="w-250px"></el-input>
+                <el-form-item :label="t('member.table.joinDate') + ':'" prop="joinTimeRange">
+                    <el-date-picker
+                        v-model="filterForm.joinTimeRange"
+                        type="daterange"
+                        unlink-panels
+                        :range-separator="t('member.form.toSeparator')"
+                        :start-placeholder="t('member.form.startDate')"
+                        :end-placeholder="t('member.form.endDate')"
+                    />
                 </el-form-item>
-                <el-form-item label="用户状态：">
-                    <el-select class="w-250px"></el-select>
+                <el-form-item :label="t('member.table.lastAction') + ':'" prop="lastActionRange">
+                    <el-date-picker
+                        v-model="filterForm.lastActionRange"
+                        unlink-panels
+                        type="daterange"
+                        :range-separator="t('member.form.toSeparator')"
+                        :start-placeholder="t('member.form.startDate')"
+                        :end-placeholder="t('member.form.endDate')"
+                    />
+                </el-form-item>
+                <el-form-item :label="t('member.halal') + ':'" prop="isHalal">
+                    <el-radio-group v-model="filterForm.isHalal">
+                        <el-radio-button :label="1">{{ t('member.form.yes') }}</el-radio-button>
+                        <el-radio-button :label="0">{{ t('member.form.no') }}</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item :label="t('member.table.gender') + ':'" prop="gender">
+                    <el-radio-group v-model="filterForm.gender">
+                        <el-radio-button :label="Gender.Male" />
+                        <el-radio-button :label="Gender.Female" />
+                    </el-radio-group>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">
-                        <icon name="ep:search"> 查询 </icon>
+                    <el-button type="primary" @click="handleSearch(memberFilterFormRef)">
+                        <icon name="ep:search"> {{ t('member.form.searchBtn') }} </icon>
                     </el-button>
-                    <el-button>
-                        <icon name="ep:brush">重置</icon>
+                    <el-button @click="resetSearchForm(memberFilterFormRef)">
+                        <icon name="ep:brush">{{ t('member.form.resetBtn') }}</icon>
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -24,9 +78,7 @@
         <c-table ref="memberTableRef" v-loading="loading" :data="tableData" style="width: 100%">
             <template #table-header>
                 <el-button type="primary">
-                    <icon name="fa-bullhorn" @click="handleBroadcast">{{
-                        t('member.broadcast')
-                    }}</icon>
+                    <icon name="fa-bullhorn">{{ t('member.broadcast') }}</icon>
                 </el-button>
                 <el-button type="primary"> {{ t('member.distribute') }} </el-button>
             </template>
@@ -34,75 +86,70 @@
             <el-table-column label="ID" prop="id" width="80"></el-table-column>
             <el-table-column :label="t('member.table.name')" prop="username" width="200">
                 <template #header>
-                    <div flex justify-between>
+                    <div flex justify-between items-center>
                         <div>{{ t('member.table.name') }}</div>
-                        <div flex>
-                            <el-tag
-                                size="small"
-                                class="member-column-tag"
-                                :effect="sortArr.includes(Gender.Male) ? 'dark' : 'plain'"
-                                @click="handleSortByTag(Gender.Male)"
-                                >{{ t('member.male') }}</el-tag
-                            >
-                            <el-tag
-                                size="small"
-                                ml-2
-                                type="danger"
-                                class="member-column-tag"
-                                :effect="sortArr.includes(Gender.Female) ? 'dark' : 'plain'"
-                                @click="handleSortByTag(Gender.Female)"
-                                >{{ t('member.female') }}</el-tag
-                            >
-                            <el-tag
-                                size="small"
-                                ml-2
-                                type="success"
-                                class="member-column-tag"
-                                :effect="sortArr.includes('isHalal') ? 'dark' : 'plain'"
-                                @click="handleSortByTag('isHalal')"
-                                >{{ t('member.halal') }}</el-tag
-                            >
-                        </div>
+                        <el-tag
+                            size="small"
+                            type="success"
+                            class="member-column-tag"
+                            :effect="sortArr.includes('isHalal') ? 'dark' : 'plain'"
+                            @click="handleSortByTag('isHalal')"
+                            >{{ t('member.halal') }}</el-tag
+                        >
                     </div>
                 </template>
                 <template #default="scope">
-                    <div flex>
+                    <div flex items-center>
                         <div>{{ scope.row.username }}</div>
-                        <el-tag v-if="scope.row.gender === Gender.Male" ml-2 size="small">{{
-                            t('member.male')
-                        }}</el-tag>
-                        <el-tag
-                            v-if="scope.row.gender === Gender.Female"
-                            size="small"
+                        <SvgIcon
+                            v-if="scope.row.isHalal"
+                            text-xl
                             ml-2
-                            type="danger"
-                            >{{ t('member.female') }}</el-tag
-                        >
-                        <el-tag v-if="scope.row.isHalal" size="small" ml-2 type="success">{{
-                            t('member.halal')
-                        }}</el-tag>
+                            color="#65B687"
+                            icon-class="halal"
+                        />
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :label="t('member.table.voucher')" prop="voucher" width="140">
+            <el-table-column :label="t('member.table.gender')" prop="gender" width="74" sortable>
                 <template #default="scope">
-                    <div class="flex">
-                        <div class="w-20">
-                            <icon color="#F56C6C" name="fa-ticket">
-                                {{ scope.row.discountNum }}
-                            </icon>
-                        </div>
-                        <div class="w-20">
-                            <icon color="#65B687" name="fa-ticket">
-                                {{ scope.row.unDiscountNum }}
-                            </icon>
-                        </div>
-                    </div>
+                    <el-tag v-if="scope.row.gender === Gender.Male" ml-2 w-30px size="small">{{
+                        t('member.male')
+                    }}</el-tag>
+                    <el-tag
+                        v-if="scope.row.gender === Gender.Female"
+                        size="small"
+                        ml-2
+                        w-30px
+                        type="danger"
+                        >{{ t('member.female') }}</el-tag
+                    >
                 </template>
+            </el-table-column>
+            <el-table-column :label="t('member.table.voucher')" header-align="center">
+                <el-table-column prop="unDiscountNum" sortable width="100">
+                    <template #header>
+                        <SvgIcon
+                            class="voucher-icon"
+                            icon-class="undiscount-voucher"
+                            color="#0078FF"
+                        />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="discountNum" sortable width="100">
+                    <template #header>
+                        <SvgIcon
+                            class="voucher-icon"
+                            icon-class="discount-voucher"
+                            color="#0078FF"
+                        />
+                    </template>
+                </el-table-column>
             </el-table-column>
             <el-table-column
                 :label="t('member.table.distance')"
                 prop="distance"
+                :formatter="distanceColFormatter"
                 width="120"
                 sortable
             ></el-table-column>
@@ -130,14 +177,30 @@
 </template>
 <script lang="ts" setup>
 import dayjs from 'dayjs'
-import { Action, ElMessage, ElMessageBox } from 'element-plus'
+import { FormInstance, FormRules, TableColumnCtx } from 'element-plus'
 import { getMemberList } from '@/api/member'
-import { Gender, GetMemberListParam, Member } from '@/api/model/memberModel'
-import { CTable, Icon, PageContainer, Pagination } from '@/components'
+import { Gender, GetMemberListParam, Member, MemberType } from '@/api/model/memberModel'
+import { CTable, Icon, PageContainer, Pagination, SvgIcon } from '@/components'
 import { useI18n } from '@/lang/index'
-import { MemberType } from '../../../api/model/memberModel'
+import { leftDistanceOptions, rightDistanceOptions } from '../distanceOption'
+
+defineOptions({
+    name: 'MemberList'
+})
 
 const { t } = useI18n()
+
+const validateDistance = (rule: any, value: any, callback: any) => {
+    if (value[0] >= value[1]) {
+        callback(new Error(t('member.form.error.distanceSame')))
+    } else if (
+        !(value[0] === undefined && value[1] === undefined) &&
+        (value[0] === undefined || value[1] === undefined)
+    ) {
+        callback(new Error(t('member.form.error.deletionDistanceOne')))
+    }
+    callback()
+}
 
 const state = reactive({
     queryParam: {
@@ -153,21 +216,45 @@ const state = reactive({
         joinStart: undefined,
         orderBy: undefined
     } as GetMemberListParam,
+    filterForm: {
+        gender: undefined,
+        isHalal: undefined,
+        joinTimeRange: undefined,
+        lastActionRange: undefined,
+        distanceRange: []
+    },
+    rules: {
+        distanceRange: [{ validator: validateDistance, trigger: 'blur' }]
+    } as FormRules,
     sortArr: [] as MemberType[],
     tableData: [] as Member[],
     total: 0,
-    loading: true
+    loading: true,
+    memberTableRef: undefined as any,
+    memberFilterFormRef: undefined as FormInstance | undefined
 })
 
-const { queryParam, total, sortArr, tableData, loading } = toRefs(state)
-
-const memberTableRef = ref<any>(null)
+const {
+    queryParam,
+    total,
+    sortArr,
+    tableData,
+    loading,
+    filterForm,
+    rules,
+    memberTableRef,
+    memberFilterFormRef
+} = toRefs(state)
 
 async function getMemberListByQuery() {
     state.loading = true
+    memberTableRef.value?.$refs.elTable.clearSort()
     const [err, memberList] = await getMemberList(state.queryParam)
     if (err) {
-        console.warn('err', err)
+        window.$message({
+            message: t('app.systemError'),
+            type: 'error'
+        })
     } else {
         state.total = memberList.total
         memberList.rows.forEach((member) => {
@@ -188,7 +275,6 @@ async function getMemberListByQuery() {
 }
 
 const handleQuery = async () => {
-    memberTableRef.value?.$refs.elTable.clearSort()
     tableData.value = await getMemberListByQuery()
 }
 
@@ -210,26 +296,20 @@ const handleSortByTag = async (type: MemberType) => {
     tableData.value = await getMemberListByQuery()
 }
 
-const handleBroadcast = () => {
-    ElMessageBox.prompt('Please input your e-mail', 'Tip', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        inputPattern:
-            /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        inputErrorMessage: 'Invalid Email'
-    })
-        .then(({ value }) => {
-            ElMessage({
-                type: 'success',
-                message: `Your email is:${value}`
-            })
-        })
-        .catch(() => {
-            ElMessage({
-                type: 'info',
-                message: 'Input canceled'
-            })
-        })
+const handleSearch = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    const canSearch = await formEl.validate().catch(() => undefined)
+    if (!canSearch) return
+    console.log(' filterForm.value', filterForm.value)
+}
+
+const resetSearchForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+}
+
+const distanceColFormatter = (row: Member, column: TableColumnCtx<Member>, cellValue: string) => {
+    return Number(cellValue) >= 1 ? `${cellValue}km` : `${Number(cellValue) * 1000}m`
 }
 
 onMounted(async () => {
@@ -237,8 +317,20 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .member-column-tag {
     @apply transition cursor-pointer;
+}
+
+.voucher-icon {
+    @apply text-3xl mr-2;
+}
+
+:deep(.el-form-item__error) {
+    z-index: 999;
+}
+
+.cell:has(.voucher-icon) {
+    @apply flex items-center;
 }
 </style>

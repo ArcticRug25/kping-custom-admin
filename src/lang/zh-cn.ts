@@ -39,8 +39,24 @@ export default {
         male: '男',
         female: '女',
         halal: '清真',
+        form: {
+            startDate: '开始日期',
+            endDate: '结束日期',
+            toSeparator: '至',
+            searchBtn: '查询',
+            resetBtn: '重置',
+            distanceFrom: '开始距离',
+            distanceTo: '结束距离',
+            yes: '是',
+            no: '否',
+            error: {
+                distanceSame: '开始距离不能大于等于结束距离',
+                deletionDistanceOne: '开始距离和结束距离需要同时选择'
+            }
+        },
         table: {
             name: '姓名',
+            gender: '性别',
             voucher: '票券',
             distance: '距离',
             joinDate: '加入时间',

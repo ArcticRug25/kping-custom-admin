@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-// import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 
 import PreferenceSetting from '@/layout/preferenceSetting/preferenceSetting.vue'
 import { useTheme } from './hooks/theme/useTheme'
@@ -21,7 +21,7 @@ const { locale } = useElementConfig()
 useTheme()
 useChangeTheme()
 
-// window.$message = ElMessage
-// window.$messageBox = ElMessageBox
-// window.$notifiCation = ElNotification
+window.$message = ElMessage
+window.$messageBox = ElMessageBox
+window.$notifiCation = ElNotification
 </script>

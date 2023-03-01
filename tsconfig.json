@@ -16,7 +16,12 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "types": ["element-plus/global", "unplugin-vue-define-options/macros-global", "vite/client"]
+        "types": [
+            "element-plus/global",
+            "unplugin-vue-define-options/macros-global",
+            "vite/client",
+            "vite-plugin-svg-icons/client"
+        ]
     },
 
     "include": ["src", "typings/*.d.ts", "typings/**/*.d.ts"],

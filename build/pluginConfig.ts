@@ -6,11 +6,12 @@ import { PluginOption } from 'vite'
 import viteCompression from 'vite-plugin-compression'
 import eslintPlugin from 'vite-plugin-eslint'
 import { autoComponent, autoImport } from './plugins/autoComponent'
-
+import { svgIconPlugin } from './plugins/svgIcon'
 // eslint-disable-next-line no-unused-vars
 export function pluginsConfig(isBuild: boolean) {
     const plugins: PluginOption[] = [vue(), vueJsx(), defineOptions(), unocss()]
 
+    plugins.push(svgIconPlugin)
     plugins.push(viteCompression())
     plugins.push(autoImport())
     plugins.push(autoComponent())

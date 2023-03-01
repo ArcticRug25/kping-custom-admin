@@ -1,9 +1,4 @@
 {
-    "fileheader.customMade": {
-        "Author": "PengYH",
-        "Date": "YYYY-MM-DD",
-        "Description": ""
-    },
     "explorer.compactFolders": false,
     "[vue]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -31,7 +26,8 @@
         "echarts",
         "iconify",
         "nprogress",
-        "pinia"
+        "pinia",
+        "undiscount"
     ],
     "i18n-ally.localesPaths": "src/lang",
     "i18n-ally.enabledParsers": ["ts"], //这个最好加上，如果是其他格式，如ts，不加上就无效了

@@ -37,11 +37,28 @@ export default {
     member: {
         broadcast: 'broadcast',
         distribute: 'distribute',
-        male: 'male',
-        female: 'female',
+        male: 'M',
+        female: 'F',
         halal: 'halal',
+        form: {
+            startDate: 'Start date',
+            endDate: 'End date',
+            toSeparator: 'To',
+            searchBtn: 'Search',
+            resetBtn: 'Reset',
+            distanceFrom: 'Start distance',
+            distanceTo: 'End distance',
+            yes: 'Yes',
+            no: 'No',
+            error: {
+                distanceSame: 'Start distance cannot be greater than or equal to the end distance',
+                deletionDistanceOne:
+                    'Start distance and end distance need to be selected at the same time'
+            }
+        },
         table: {
             name: 'Name',
+            gender: 'Sex',
             voucher: 'Voucher',
             distance: 'Distance',
             joinDate: 'Join Date',

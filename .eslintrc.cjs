@@ -38,6 +38,7 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
         'consistent-return': 'off',
         'no-undef': 'off',
-        '@typescript-eslint/no-non-null-assertion': 'off'
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        'func-names': ['warn', 'never']
     }
 }

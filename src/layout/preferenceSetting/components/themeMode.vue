@@ -1,9 +1,9 @@
 <template>
-    <el-divider>主题模式</el-divider>
-    <Description label="跟随系统">
+    <el-divider>{{ t('app.theme') }}</el-divider>
+    <Description :label="t('app.followSystem')">
         <el-switch v-model="appStore.followSystemTheme" />
     </Description>
-    <Description label="深色主题">
+    <Description :label="t('app.darkMode')">
         <el-switch
             v-model="appStore.themeMode"
             :disabled="appStore.followSystemTheme"
@@ -14,6 +14,8 @@
 </template>
 <script lang="ts" setup>
 import Description from '@/layout/common/Description.vue'
+import { useI18n } from '@/lang/index'
+const { t } = useI18n()
 const appStore = useAppStore()
 </script>
 

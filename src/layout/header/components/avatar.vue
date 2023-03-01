@@ -8,15 +8,15 @@
             <el-dropdown-menu>
                 <el-dropdown-item command="personInformation">
                     <el-icon :size="16"><User /></el-icon>
-                    <span class="ml-5px">个人信息</span>
+                    <span class="ml-5px">{{ t('route.profile') }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item command="preferenceSetting">
                     <el-icon :size="16"><Setting /></el-icon>
-                    <span class="ml-5px">偏好设置</span>
+                    <span class="ml-5px">{{ t('app.preference') }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item command="loginOut">
                     <el-icon :size="16"><SwitchButton /></el-icon>
-                    <span class="ml-5px">退出登录</span>
+                    <span class="ml-5px">{{ t('app.logOut') }}</span>
                 </el-dropdown-item>
             </el-dropdown-menu>
         </template>
@@ -25,10 +25,11 @@
 
 <script lang="ts" setup>
 import { User, Setting, SwitchButton } from '@element-plus/icons-vue'
+import { useI18n } from '@/lang/index'
 defineOptions({
     name: 'Avatar'
 })
-
+const { t } = useI18n()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const router = useRouter()

@@ -1,8 +1,3 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-02-02
- * @Description: 颜色选择容器
--->
 <template>
     <div class="color-list">
         <slot></slot>

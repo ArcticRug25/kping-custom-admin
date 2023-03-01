@@ -1,11 +1,6 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-02-02
- * @Description: 更多颜色弹窗
--->
 <template>
     <el-dialog v-bind="$attrs" width="630px">
-        <h2 class="text-center c-primary">中国传统颜色</h2>
+        <h2 class="text-center c-primary">{{ t('app.ChineseTraditionalColors') }}</h2>
         <el-tabs v-model="activeName">
             <el-tab-pane
                 v-for="item in colors"
@@ -29,6 +24,8 @@
 import { colors } from './themeList'
 import ColorItem from './colorItem.vue'
 import Color from './color.vue'
+import { useI18n } from '@/lang/index'
+const { t } = useI18n()
 const activeName = ref('红色系')
 </script>
 

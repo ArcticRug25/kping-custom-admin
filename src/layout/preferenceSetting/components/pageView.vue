@@ -1,20 +1,15 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-01-31
- * @Description: 界面展示
--->
 <template>
-    <el-divider>界面展示</el-divider>
-    <Description label="标签页">
+    <el-divider>{{ t('app.interfaceDisplay') }}</el-divider>
+    <Description :label="t('app.tabPage')">
         <el-switch v-model="appStore.showTab" />
     </Description>
-    <Description label="面包屑">
+    <Description :label="t('app.breadCrumbs')">
         <el-switch v-model="appStore.showBreadcrumb" />
     </Description>
-    <Description label="禁用动画">
+    <Description :label="t('app.disableAnimation')">
         <el-switch v-model="appStore.disableAnimation" />
     </Description>
-    <Description label="动画类型">
+    <Description :label="t('app.animationType')">
         <el-select v-model="appStore.animationType" :disabled="appStore.disableAnimation">
             <el-option
                 v-for="item in animationTypeOptions"
@@ -29,18 +24,20 @@
 <script lang="ts" setup>
 import Description from '@/layout/common/Description.vue'
 import { useAppStore } from '@/store'
+import { useI18n } from '@/lang/index'
+
+const { t } = useI18n()
 defineOptions({
     name: 'PageView'
 })
 
-/** 页面切换动画类型 下拉数据源 */
 const animationTypeOptions = [
-    { value: 'zoom-fade', label: '渐变' },
-    { value: 'zoom-out', label: '闪现' },
-    { value: 'fade-slide', label: '滑动' },
-    { value: 'fade', label: '消退' },
-    { value: 'fade-bottom', label: '底部消退' },
-    { value: 'fade-scale', label: '缩放消退' }
+    { value: 'zoom-fade', label: t('app.animationList.zoomFade') },
+    { value: 'zoom-out', label: t('app.animationList.zooOut') },
+    { value: 'fade-slide', label: t('app.animationList.fadeSlide') },
+    { value: 'fade', label: t('app.animationList.fade') },
+    { value: 'fade-bottom', label: t('app.animationList.fadeBottom') },
+    { value: 'fade-scale', label: t('app.animationList.fadeScale') }
 ]
 const appStore = useAppStore()
 </script>

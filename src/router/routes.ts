@@ -1,5 +1,8 @@
 import { RouteRecordRaw } from 'vue-router'
 import Layout from '@/layout/index.vue'
+import { useI18n } from '@/lang/index'
+
+const { t } = useI18n()
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -13,7 +16,7 @@ export const routes: RouteRecordRaw[] = [
                 component: () =>
                     import('@/views/systemManage/userInfo/personInformation/personInformation.vue'),
                 meta: {
-                    title: '个人信息'
+                    title: t('route.profile')
                 }
             }
         ]

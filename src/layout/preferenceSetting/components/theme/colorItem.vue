@@ -1,8 +1,3 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-02-02
- * @Description: 颜色组件项
--->
 <template>
     <div>
         <div

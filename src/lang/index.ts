@@ -43,6 +43,7 @@ export const i18n = createI18n({
     locale: getLanguage(),
     messages
 })
+
 export function useI18n() {
     return {
         t: (str: string) => i18n.global.t(str)

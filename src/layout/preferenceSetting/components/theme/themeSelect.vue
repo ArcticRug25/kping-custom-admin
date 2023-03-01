@@ -1,8 +1,3 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-02-02
- * @Description: 主题选择
--->
 <template>
     <Color>
         <color-item v-for="color in themeColorList" :key="color" :color="color"></color-item>

@@ -1,9 +1,3 @@
-/*
- * @Author: PengYH
- * @Date: 2022-03-21
- * @Description:动态构建路由
- */
-
 import { RouteRecordRaw } from 'vue-router'
 import Layout from '@/layout/index.vue'
 

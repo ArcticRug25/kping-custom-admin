@@ -57,12 +57,22 @@
                     <el-radio-group v-model="filterForm.isHalal">
                         <el-radio-button :label="1">{{ t('member.form.yes') }}</el-radio-button>
                         <el-radio-button :label="0">{{ t('member.form.no') }}</el-radio-button>
+                        <el-radio-button :label="undefined">{{
+                            t('member.form.all')
+                        }}</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item :label="t('member.table.gender') + ':'" prop="gender">
                     <el-radio-group v-model="filterForm.gender">
-                        <el-radio-button :label="Gender.Male" />
-                        <el-radio-button :label="Gender.Female" />
+                        <el-radio-button :label="Gender.Male">{{
+                            t('member.form.male')
+                        }}</el-radio-button>
+                        <el-radio-button :label="Gender.Female">{{
+                            t('member.form.female')
+                        }}</el-radio-button>
+                        <el-radio-button :label="undefined">{{
+                            t('member.form.all')
+                        }}</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item>
@@ -176,13 +186,12 @@
     </PageContainer>
 </template>
 <script lang="ts" setup>
-import dayjs from 'dayjs'
 import { FormInstance, FormRules, TableColumnCtx } from 'element-plus'
-import { getMemberList } from '@/api/member'
 import { Gender, GetMemberListParam, Member, MemberType } from '@/api/model/memberModel'
 import { CTable, Icon, PageContainer, Pagination, SvgIcon } from '@/components'
 import { useI18n } from '@/lang/index'
 import { leftDistanceOptions, rightDistanceOptions } from '../distanceOption'
+import useMemberList from './useMemberList'
 
 defineOptions({
     name: 'MemberList'
@@ -246,36 +255,15 @@ const {
     memberFilterFormRef
 } = toRefs(state)
 
-async function getMemberListByQuery() {
-    state.loading = true
-    memberTableRef.value?.$refs.elTable.clearSort()
-    const [err, memberList] = await getMemberList(state.queryParam)
-    if (err) {
-        window.$message({
-            message: t('app.systemError'),
-            type: 'error'
-        })
-    } else {
-        state.total = memberList.total
-        memberList.rows.forEach((member) => {
-            member.joinTime = dayjs(member.joinTime).format('YYYY-MM-DD HH:mm:ss')
-            member.distance = Number(member.distance)
-            member.lastAction = dayjs(member.lastAction).format('YYYY-MM-DD HH:mm:ss')
-            member.discountNum = member.vouchers.reduce((num, voucher) => {
-                if (voucher.isDiscount) {
-                    num++
-                }
-                return num
-            }, 0)
-            member.unDiscountNum = member.vouchers.length - member.discountNum
-        })
-    }
-    state.loading = false
-    return memberList?.rows ?? []
-}
+const { getMemberListByQuery } = useMemberList()
 
 const handleQuery = async () => {
-    tableData.value = await getMemberListByQuery()
+    state.loading = true
+    memberTableRef.value?.$refs.elTable.clearSort()
+    const { total, memberList } = await getMemberListByQuery(state.queryParam)
+    tableData.value = memberList
+    state.total = total
+    state.loading = false
 }
 
 const handleSortByTag = async (type: MemberType) => {
@@ -348,7 +336,7 @@ onMounted(async () => {
     z-index: 999;
 }
 
-.cell:has(.voucher-icon) {
+:deep(.cell):has(.voucher-icon) {
     @apply flex items-center;
 }
 </style>

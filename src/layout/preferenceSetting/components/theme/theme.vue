@@ -1,15 +1,10 @@
-<!--
- * @Author: PengYH
- * @Date: 2023-02-02
- * @Description: 系统主题
--->
 <template>
-    <el-divider>系统主题</el-divider>
+    <el-divider>{{ t('app.systemTopic') }}</el-divider>
     <!-- 主题选择 -->
     <theme-select />
     <div class="mt-10px">
         <el-button type="default" class="w-full" @click="moreThemeVisible = true">
-            更多颜色
+            {{ t('app.moreColors') }}
         </el-button>
     </div>
     <!-- 更多颜色弹窗 -->
@@ -18,5 +13,7 @@
 <script lang="ts" setup>
 import ThemeSelect from './themeSelect.vue'
 import MoreThemeModal from './moreThemeModal.vue'
+import { useI18n } from '@/lang/index'
+const { t } = useI18n()
 const moreThemeVisible = ref(false)
 </script>

@@ -219,8 +219,8 @@ const state = reactive({
     filterForm: {
         gender: undefined,
         isHalal: undefined,
-        joinTimeRange: undefined,
-        lastActionRange: undefined,
+        joinTimeRange: [] as any,
+        lastActionRange: [] as any,
         distanceRange: []
     },
     rules: {
@@ -293,14 +293,32 @@ const handleSortByTag = async (type: MemberType) => {
         state.sortArr.splice(typeIdx, 1)
     }
     state.queryParam.orderBy = state.sortArr
-    tableData.value = await getMemberListByQuery()
+    handleQuery()
 }
 
 const handleSearch = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     const canSearch = await formEl.validate().catch(() => undefined)
     if (!canSearch) return
-    console.log(' filterForm.value', filterForm.value)
+    const {
+        joinTimeRange: [joinStart, joinEnd],
+        lastActionRange: [actionStart, actionEnd],
+        distanceRange: [distanceFrom, distanceTo],
+        ...otherFields
+    } = filterForm.value
+
+    state.queryParam = {
+        ...state.queryParam,
+        ...otherFields,
+        joinStart,
+        joinEnd,
+        actionStart,
+        actionEnd,
+        distanceFrom,
+        distanceTo
+    }
+
+    handleQuery()
 }
 
 const resetSearchForm = (formEl: FormInstance | undefined) => {
@@ -313,7 +331,7 @@ const distanceColFormatter = (row: Member, column: TableColumnCtx<Member>, cellV
 }
 
 onMounted(async () => {
-    tableData.value = await getMemberListByQuery()
+    handleQuery()
 })
 </script>
 

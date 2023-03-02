@@ -2,6 +2,15 @@
     <PageContainer>
         <template #header>
             <el-form ref="memberFilterFormRef" :rules="rules" :model="filterForm" inline>
+                <el-form-item :label="t('member.form.memberName') + ':'" prop="name">
+                    <el-input
+                        v-model="filterForm.name"
+                        :placeholder="t('member.form.memberNamePlaceholder')"
+                        w-50
+                        maxlength="30"
+                        clearable
+                    />
+                </el-form-item>
                 <el-form-item :label="t('member.table.distance') + ':'" prop="distanceRange">
                     <el-col :span="11">
                         <el-select
@@ -93,20 +102,18 @@
                 <el-button type="primary"> {{ t('member.distribute') }} </el-button>
             </template>
             <el-table-column type="selection" width="55" />
-            <el-table-column label="ID" prop="id" width="80"></el-table-column>
-            <el-table-column :label="t('member.table.name')" prop="username" width="200">
+            <el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+            <el-table-column :label="t('member.table.name')" prop="username" width="200" sortable>
                 <template #header>
-                    <div flex justify-between items-center>
-                        <div>{{ t('member.table.name') }}</div>
-                        <el-tag
-                            size="small"
-                            type="success"
-                            class="member-column-tag"
-                            :effect="sortArr.includes('isHalal') ? 'dark' : 'plain'"
-                            @click="handleSortByTag('isHalal')"
-                            >{{ t('member.halal') }}</el-tag
-                        >
-                    </div>
+                    <span>{{ t('member.table.name') }}</span>
+                    <el-tag
+                        size="small"
+                        type="success"
+                        class="member-column-tag halal-tag"
+                        :effect="sortArr.includes('isHalal') ? 'dark' : 'plain'"
+                        @click.stop="handleSortByTag('isHalal')"
+                        >{{ t('member.halal') }}</el-tag
+                    >
                 </template>
                 <template #default="scope">
                     <div flex items-center>
@@ -223,14 +230,16 @@ const state = reactive({
         gender: undefined,
         joinEnd: undefined,
         joinStart: undefined,
-        orderBy: undefined
+        orderBy: undefined,
+        name: undefined
     } as GetMemberListParam,
     filterForm: {
         gender: undefined,
         isHalal: undefined,
         joinTimeRange: [] as any,
         lastActionRange: [] as any,
-        distanceRange: []
+        distanceRange: [],
+        name: ''
     },
     rules: {
         distanceRange: [{ validator: validateDistance, trigger: 'blur' }]
@@ -326,6 +335,10 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .member-column-tag {
     @apply transition cursor-pointer;
+
+    &.halal-tag {
+        @apply absolute right-4 top-50% -translate-y-50%;
+    }
 }
 
 .voucher-icon {

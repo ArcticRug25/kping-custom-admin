@@ -73,6 +73,7 @@ export default {
 
         halal: 'halal',
         form: {
+            memberName: 'Member Name',
             startDate: 'Start date',
             endDate: 'End date',
             toSeparator: 'To',
@@ -85,6 +86,7 @@ export default {
             yes: 'Yes',
             no: 'No',
             all: 'All',
+            memberNamePlaceholder: 'Please enter the name',
             error: {
                 distanceSame: 'Start distance cannot be greater than or equal to the end distance',
                 deletionDistanceOne:

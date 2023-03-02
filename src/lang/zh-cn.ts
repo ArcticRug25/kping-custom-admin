@@ -71,6 +71,7 @@ export default {
         female: '女',
         halal: '清真',
         form: {
+            memberName: '用户名',
             startDate: '开始日期',
             endDate: '结束日期',
             toSeparator: '至',
@@ -83,6 +84,7 @@ export default {
             yes: '是',
             no: '否',
             all: '全部',
+            memberNamePlaceholder: '请输入用户名',
             error: {
                 distanceSame: '开始距离不能大于等于结束距离',
                 deletionDistanceOne: '开始距离和结束距离需要同时选择'

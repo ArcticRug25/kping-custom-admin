@@ -33,4 +33,5 @@ export interface GetMemberListParam extends PageParam {
     distanceFrom?: number
     distanceTo?: number
     orderBy?: MemberType[]
+    name?: string
 }

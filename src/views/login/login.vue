@@ -100,6 +100,7 @@ const onLogin = async () => {
     }
     const [err, data] = await accountLogin(formData)
     if (err) {
+        formData.code = ''
         resetCode()
     } else {
         userStore.token = data.access_token

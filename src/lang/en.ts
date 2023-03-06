@@ -101,5 +101,13 @@ export default {
             joinDate: 'Join Date',
             lastAction: 'Last Action'
         }
+    },
+    voucher: {
+        form: {
+            expireAt: 'Expiration Time'
+        },
+        btn: {
+            create: 'Create'
+        }
     }
 }

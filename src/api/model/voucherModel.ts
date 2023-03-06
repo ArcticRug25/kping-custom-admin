@@ -1,3 +1,4 @@
+import { PageParam } from './pageModel'
 export interface Voucher {
     amount: number
     createTime: string
@@ -13,3 +14,5 @@ export interface Voucher {
     usedAt: null | string
     useWithOther: boolean
 }
+
+export type GetVoucherListParam = PageParam

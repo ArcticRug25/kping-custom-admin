@@ -183,10 +183,10 @@
             <template #table-footer>
                 <Pagination
                     v-if="total > 0"
-                    v-model:page="queryParam.pageNum"
-                    v-model:limit="queryParam.pageSize"
+                    v-model:page="memberQueryParam.pageNum"
+                    v-model:limit="memberQueryParam.pageSize"
                     :total="total"
-                    @pagination="handleQuery"
+                    @pagination="handleQueryMemberList"
                 />
             </template>
         </c-table>
@@ -219,7 +219,7 @@ const validateDistance = (rule: any, value: any, callback: any) => {
 }
 
 const state = reactive({
-    queryParam: {
+    memberQueryParam: {
         pageNum: 1,
         pageSize: 10,
         isHalal: undefined,
@@ -253,7 +253,7 @@ const state = reactive({
 })
 
 const {
-    queryParam,
+    memberQueryParam,
     total,
     sortArr,
     tableData,
@@ -266,10 +266,10 @@ const {
 
 const { getMemberListByQuery } = useMemberList()
 
-const handleQuery = async () => {
+const handleQueryMemberList = async () => {
     state.loading = true
     memberTableRef.value?.$refs.elTable.clearSort()
-    const { total, memberList } = await getMemberListByQuery(state.queryParam)
+    const { total, memberList } = await getMemberListByQuery(state.memberQueryParam)
     tableData.value = memberList
     state.total = total
     state.loading = false
@@ -289,8 +289,8 @@ const handleSortByTag = async (type: MemberType) => {
     } else {
         state.sortArr.splice(typeIdx, 1)
     }
-    state.queryParam.orderBy = state.sortArr
-    handleQuery()
+    state.memberQueryParam.orderBy = state.sortArr
+    handleQueryMemberList()
 }
 
 const handleSearch = async (formEl: FormInstance | undefined) => {
@@ -304,8 +304,8 @@ const handleSearch = async (formEl: FormInstance | undefined) => {
         ...otherFields
     } = filterForm.value
 
-    state.queryParam = {
-        ...state.queryParam,
+    state.memberQueryParam = {
+        ...state.memberQueryParam,
         ...otherFields,
         joinStart,
         joinEnd,
@@ -315,7 +315,7 @@ const handleSearch = async (formEl: FormInstance | undefined) => {
         distanceTo
     }
 
-    handleQuery()
+    handleQueryMemberList()
 }
 
 const resetSearchForm = (formEl: FormInstance | undefined) => {
@@ -328,7 +328,7 @@ const distanceColFormatter = (row: Member, column: TableColumnCtx<Member>, cellV
 }
 
 onMounted(async () => {
-    handleQuery()
+    handleQueryMemberList()
 })
 </script>
 

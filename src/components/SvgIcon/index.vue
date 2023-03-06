@@ -1,34 +1,40 @@
 <template>
-    <svg aria-hidden="true" class="svg-icon">
-        <use :xlink:href="symbolId" :fill="color" />
-    </svg>
+    <div class="c-icon flex-y-center">
+        <svg v-bind="$attrs" aria-hidden="true" :width="width" :height="width" class="svg-icon">
+            <use :xlink:href="symbolId" :fill="color" />
+        </svg>
+        <div v-if="$slots.default" class="ml-4px">
+            <slot></slot>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    prefix: {
-        type: String,
-        default: 'icon'
-    },
-    iconClass: {
-        type: String,
-        required: true
-    },
-    color: {
-        type: String,
-        default: ''
-    }
+defineOptions({
+    name: 'SvgIcon'
 })
+
+const props = withDefaults(
+    defineProps<{
+        prefix?: string
+        iconClass: string
+        color?: string
+        width?: string | number
+    }>(),
+    {
+        prefix: 'icon',
+        color: undefined,
+        width: 16
+    }
+)
 
 const symbolId = computed(() => `#${props.prefix}-${props.iconClass}`)
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .svg-icon {
-    overflow: hidden;
-    width: 1em;
-    height: 1em;
+    @apply overflow-hidden fill-current;
+
     vertical-align: -0.15em;
-    fill: currentcolor;
 }
 </style>

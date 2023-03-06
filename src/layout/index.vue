@@ -76,7 +76,8 @@ const contentStyle = computed<CSSProperties>(() => {
         box-shadow: 2px 0 8px #1d23290d;
         transition: all var(--el-transition-duration) ease-in-out;
 
-        @apply fixed left-0 top-0 h-full  z-1002  light:bg-white dark:bg-dark;
+        @apply fixed left-0 top-0 h-full  z-1002  light:bg-white dark:bg-dark hidden;
+        @apply lg:block;
     }
 
     &-body {
@@ -86,9 +87,14 @@ const contentStyle = computed<CSSProperties>(() => {
     &-header,
     &-tab,
     &-body {
-        margin-left: v-bind(asidewidth);
-        width: calc(100% - v-bind(asidewidth));
+        /* margin-left: v-bind(asidewidth); */
+        width: 100%;
         transition: all var(--el-transition-duration) ease-in-out;
+
+        @media (min-width: 1024px) {
+            margin-left: v-bind(asidewidth);
+            width: calc(100% - v-bind(asidewidth));
+        }
     }
 
     &-inner {

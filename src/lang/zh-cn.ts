@@ -98,5 +98,13 @@ export default {
             joinDate: '加入时间',
             lastAction: '最近操作'
         }
+    },
+    voucher: {
+        form: {
+            expireAt: '过期时间'
+        },
+        btn: {
+            create: '创建票券'
+        }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <el-sub-menu v-if="!route.meta?.hidden" :index="(route.meta?.id as string)">
         <template #title>
-            <i v-if="route.meta?.icon" class="flex-center mr-5px">
+            <i v-if="route.meta?.icon" class="sub-icon">
                 <Icon :name="(route.meta.icon as string)"></Icon>
             </i>
             <span>{{ generateTitle(route.meta?.title) }}</span>
@@ -33,3 +33,13 @@ defineOptions({
 })
 defineProps<{ route: RouteRecordRaw }>()
 </script>
+
+<style lang="scss" scoped>
+.sub-icon {
+    @apply flex-center mr-5px;
+
+    .c-icon {
+        @apply pl-5px;
+    }
+}
+</style>

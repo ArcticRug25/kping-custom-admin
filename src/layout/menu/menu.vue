@@ -24,7 +24,7 @@
 import { Icon } from '@/components'
 import subMenu from './sub-menu.vue'
 import Logo from './logo.vue'
-import { generateTitle } from '../../utils/i18n'
+import { generateTitle } from '@/utils/i18n'
 
 defineOptions({
     name: 'Menu'

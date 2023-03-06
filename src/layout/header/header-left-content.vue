@@ -4,7 +4,7 @@
             <icon v-show="appStore.menuIsCollapse" name="ep:expand" size="20" />
             <icon v-show="!appStore.menuIsCollapse" name="ep:fold" size="20" />
         </div>
-        <div class="ml-10px">
+        <div class="bread-crumb-container">
             <Breadcrumb />
         </div>
     </div>
@@ -19,6 +19,20 @@ defineOptions({
 
 const appStore = useAppStore()
 const onMenuCollapse = () => {
-    appStore.menuIsCollapse = !appStore.menuIsCollapse
+    if (appStore.device === 'mobile') {
+        appStore.mobileMenuIsOpen = !appStore.mobileMenuIsOpen
+    } else {
+        appStore.menuIsCollapse = !appStore.menuIsCollapse
+    }
 }
 </script>
+
+<style lang="scss" scoped>
+.bread-crumb-container {
+    @apply ml-10px;
+
+    .el-breadcrumb {
+        @apply hidden md:block;
+    }
+}
+</style>

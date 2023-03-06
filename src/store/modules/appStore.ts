@@ -6,6 +6,8 @@ import { localStorage } from '@/utils/storage'
 /** 动画类型 */
 type animationType = 'zoom-fade' | 'zoom-out' | 'fade-slide' | 'fade' | 'fade-bottom' | 'fade-scale'
 
+type Device = 'desktop' | 'mobile'
+
 export interface AppStore {
     /** 主题模式 */
     themeMode: 'dark' | 'light'
@@ -37,6 +39,10 @@ export interface AppStore {
     size: 'large' | 'default' | 'small'
     // 语言
     language: string
+    // 设备
+    device: Device
+    // 手机模式menu是否展开
+    mobileMenuIsOpen: boolean
 }
 
 export default defineStore({
@@ -44,10 +50,19 @@ export default defineStore({
     state: (): AppStore => ({
         ...DEFAULT_APP_STORE
     }),
+    getters: {
+        isTabBarCollapse: (state) => state.menuIsCollapse && state.device === 'desktop'
+    },
     actions: {
+        setMobileMenuIsOpen(isOpen: boolean) {
+            this.mobileMenuIsOpen = isOpen
+        },
         setLanguage(language: string) {
             this.language = language
             localStorage.set('language', language)
+        },
+        setDevice(device: Device) {
+            this.device = device
         }
     },
     persist: {

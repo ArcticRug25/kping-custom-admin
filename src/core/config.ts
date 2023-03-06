@@ -23,5 +23,7 @@ export const DEFAULT_APP_STORE: AppStore = {
     keepAlive: true,
     keepAliveCounter: 10,
     size: 'default',
-    language: getLanguage()
+    language: getLanguage(),
+    device: 'desktop',
+    mobileMenuIsOpen: false
 }

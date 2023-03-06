@@ -13,6 +13,7 @@
                 <el-menu-item
                     v-if="sub.children && sub.children.length === 0"
                     :index="sub.meta?.id"
+                    @click="handleClick"
                 >
                     {{ generateTitle(sub.meta?.title) }}
                 </el-menu-item>
@@ -27,11 +28,18 @@
 import { RouteRecordRaw } from 'vue-router'
 import { Icon } from '@/components'
 import { generateTitle } from '../../utils/i18n'
+import { useAppStore } from '@/store'
 
 defineOptions({
     name: 'SubMenu'
 })
 defineProps<{ route: RouteRecordRaw }>()
+const appStore = useAppStore()
+const handleClick = () => {
+    if (appStore.device === 'mobile' && appStore.mobileMenuIsOpen) {
+        appStore.mobileMenuIsOpen = false
+    }
+}
 </script>
 
 <style lang="scss" scoped>

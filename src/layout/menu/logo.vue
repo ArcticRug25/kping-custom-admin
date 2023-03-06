@@ -1,7 +1,7 @@
 <template>
     <div class="logo">
         <Icon class="logo-icon" name="ep:element-plus" size="26" />
-        <div v-show="!appStore.menuIsCollapse" class="logo-name pl-8px text-16px font-bold">
+        <div v-show="!appStore.isTabBarCollapse" class="logo-name pl-8px text-16px font-bold">
             KPing Merchant Admin
         </div>
     </div>

@@ -4,6 +4,13 @@ interface Window {
     $notifiCation: import('element-plus').Notify
 }
 
+declare type DialogType = {
+    title: string;
+    visible: boolean;
+};
+
+declare type Undefinable<T> = T | undefined;
+
 /** 系统菜单 */
 interface SystemMenu {
     /** id */

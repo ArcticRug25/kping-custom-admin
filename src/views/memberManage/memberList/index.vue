@@ -199,24 +199,13 @@ import { CTable, Icon, PageContainer, Pagination, SvgIcon } from '@/components'
 import { useI18n } from '@/lang/index'
 import { leftDistanceOptions, rightDistanceOptions } from '../distanceOption'
 import useMemberList from './useMemberList'
+import { validateDistance } from '@/utils/validateRules'
 
 defineOptions({
     name: 'MemberList'
 })
 
 const { t } = useI18n()
-
-const validateDistance = (rule: any, value: any, callback: any) => {
-    if (value[0] >= value[1]) {
-        callback(new Error(t('member.form.error.distanceSame')))
-    } else if (
-        !(value[0] === undefined && value[1] === undefined) &&
-        (value[0] === undefined || value[1] === undefined)
-    ) {
-        callback(new Error(t('member.form.error.deletionDistanceOne')))
-    }
-    callback()
-}
 
 const state = reactive({
     memberQueryParam: {

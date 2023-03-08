@@ -2,7 +2,7 @@
     <PageContainer>
         <c-table v-loading="loading" :data="tableData" style="width: 100%">
             <template #table-header>
-                <el-button type="primary">
+                <el-button type="primary" @click="handleCreateVoucher">
                     <SvgIcon icon-class="plus" color="white">
                         {{ t('voucher.btn.create') }}</SvgIcon
                     >
@@ -26,11 +26,13 @@
                 />
             </template>
         </c-table>
+        <CreateVoucherDialog v-model:visible="dialog.visible" :title="dialog.title" />
     </PageContainer>
 </template>
 
 <script setup lang="ts">
 import { CTable, PageContainer, Pagination, SvgIcon } from '@/components'
+import CreateVoucherDialog from '../dialog/createVoucher.vue'
 import { useI18n } from '@/lang/index'
 import useVoucherList from './useVoucherList'
 import { Voucher } from '@/api/model/voucherModel'
@@ -43,12 +45,16 @@ const state = reactive({
         pageNum: 1,
         pageSize: 10
     },
+    dialog: {
+        visible: false,
+        title: ''
+    } as DialogType,
     tableData: [] as Voucher[],
     loading: false,
     total: 0
 })
 
-const { total, voucherQueryParam, loading, tableData } = toRefs(state)
+const { total, voucherQueryParam, loading, tableData, dialog } = toRefs(state)
 
 const { getVoucherListByQuery } = useVoucherList()
 
@@ -58,6 +64,13 @@ const handleQueryVoucherList = async () => {
     state.total = total
     state.tableData = voucherList
     state.loading = false
+}
+
+const handleCreateVoucher = () => {
+    state.dialog = {
+        title: t('voucher.dialog.title'),
+        visible: true
+    }
 }
 
 await handleQueryVoucherList()

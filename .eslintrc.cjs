@@ -39,6 +39,7 @@ module.exports = {
         'consistent-return': 'off',
         'no-undef': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
-        'func-names': ['warn', 'never']
+        'func-names': ['warn', 'never'],
+        'no-use-before-define': 'off'
     }
 }

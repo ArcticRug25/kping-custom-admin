@@ -1,4 +1,26 @@
 export default {
+    common: {
+        // 按钮
+        btn: {
+            add: 'Add',
+            edit: 'Edit',
+            delete: 'Delete',
+            cancel: 'Cancel',
+            confirm: 'Confirm',
+            close: 'Close',
+            search: 'Search',
+            reset: 'Reset',
+            export: 'Export',
+            import: 'Import',
+            download: 'Download',
+            upload: 'Upload',
+            save: 'Save',
+            submit: 'Submit',
+            refresh: 'Refresh',
+            back: 'Back',
+            copy: 'Copy'
+        }
+    },
     app: {
         systemError: 'System Error',
         loginExpire: 'The current page is invalid, please log in again',
@@ -104,7 +126,28 @@ export default {
     },
     voucher: {
         form: {
-            expireAt: 'Expiration Time'
+            expireAt: 'Expiration Time',
+            type: 'Voucher Type',
+            value: 'Voucher Value',
+            minConsume: 'Min Consume',
+            count: 'Voucher Count',
+            placeholder: {
+                expireAt: 'Please select the expiration time',
+                type: 'Please select the type',
+                value: 'Please enter the value',
+                minConsume: 'Please enter the min consume',
+                count: 'Please enter the count'
+            },
+            error: {
+                minConsume: 'Min consume must be a number between 1 and 9999',
+                count: 'Count must be a number between 1 and 999',
+                expireAt: 'Expiration time cannot be less than the current time',
+                value: 'Voucher value must be a number between 1 and 999',
+                discount: 'Discount must be a number between 1 and 99'
+            }
+        },
+        dialog: {
+            title: 'Create Voucher'
         },
         btn: {
             create: 'Create'

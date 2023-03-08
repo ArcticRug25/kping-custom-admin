@@ -1,4 +1,26 @@
 export default {
+    common: {
+        // 按钮
+        btn: {
+            add: '添加',
+            edit: '编辑',
+            delete: '删除',
+            cancel: '取消',
+            confirm: '确认',
+            close: '关闭',
+            search: '查询',
+            reset: '重置',
+            export: '导出',
+            import: '导入',
+            download: '下载',
+            upload: '上传',
+            save: '保存',
+            submit: '提交',
+            refresh: '刷新',
+            back: '返回',
+            copy: '复制'
+        }
+    },
     app: {
         systemError: '系统出错',
         loginExpire: '当前页面已失效，请重新登录',
@@ -101,7 +123,28 @@ export default {
     },
     voucher: {
         form: {
-            expireAt: '过期时间'
+            expireAt: '过期时间',
+            type: '票券类型',
+            value: '票券价值',
+            minConsume: '最低消费',
+            count: '票券数量',
+            placeholder: {
+                expireAt: '请选择过期时间',
+                type: '请选择类型',
+                value: '请输入票券价值',
+                minConsume: '请输入最低消费',
+                count: '请输入数量'
+            },
+            error: {
+                minConsume: '最低消费只能为1-9999的数字',
+                count: '数量只能为1-999的数字',
+                expireAt: '过期时间不能小于当前时间',
+                value: '票券价值只能为1-999的数字',
+                discount: '票券折扣只能为1-99的数字'
+            }
+        },
+        dialog: {
+            title: '创建票券'
         },
         btn: {
             create: '创建票券'

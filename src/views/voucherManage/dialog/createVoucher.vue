@@ -7,9 +7,9 @@
             :label-width="appStore.language === 'en' ? '126px' : ''"
         >
             <!-- 票券数量 -->
-            <el-form-item :label="t('voucher.form.count')" required prop="count">
+            <el-form-item :label="t('voucher.form.count')" required prop="totalCount">
                 <el-input-number
-                    v-model="voucherForm.count"
+                    v-model="voucherForm.totalCount"
                     :min="1"
                     :max="999"
                     step-strictly
@@ -17,35 +17,36 @@
                     controls-position="right"
                 ></el-input-number>
             </el-form-item>
-            <el-form-item :label="t('voucher.form.expireAt')" required prop="expireAt">
+            <el-form-item :label="t('voucher.form.expireAt')" required prop="expiredAt">
                 <el-date-picker
-                    v-model="voucherForm.expireAt"
+                    v-model="voucherForm.expiredAt"
+                    class="voucher-date-select"
                     type="date"
                     :placeholder="t('voucher.form.placeholder.expireAt')"
                 />
             </el-form-item>
-            <el-form-item :label="t('voucher.form.value')" required prop="value">
+            <el-form-item :label="t('voucher.form.value')" required prop="amount">
                 <el-input
-                    v-model.number="voucherForm.value"
+                    v-model.number="voucherForm.amount"
                     class="input-with-select"
                     :placeholder="t('voucher.form.placeholder.value')"
                 >
                     <template #prepend>
                         <el-select
-                            v-model="voucherForm.type"
+                            v-model="voucherForm.isDiscount"
                             :placeholder="t('voucher.form.placeholder.type')"
                             style="width: 60px"
                         >
-                            <el-option label="$" value="0" />
-                            <el-option label="%" value="1" />
+                            <el-option label="$" :value="false" />
+                            <el-option label="%" :value="true" />
                         </el-select>
                     </template>
                 </el-input>
             </el-form-item>
             <!-- 最低消费 -->
-            <el-form-item :label="t('voucher.form.minConsume')" required prop="minConsume">
+            <el-form-item :label="t('voucher.form.minConsume')" required prop="minimumExpense">
                 <el-input
-                    v-model.number="voucherForm.minConsume"
+                    v-model.number="voucherForm.minimumExpense"
                     :placeholder="t('voucher.form.placeholder.minConsume')"
                 />
             </el-form-item>
@@ -66,6 +67,8 @@ import { FormInstance, FormRules } from 'element-plus'
 import { useI18n } from '@/lang'
 import { useAppStore } from '@/store'
 import { validateExpireAt, validateValue } from '@/utils/validateRules'
+import { CreateVoucherParam, Voucher } from '@/api/model/voucherModel'
+import { createVoucher } from '@/api/voucher'
 
 defineOptions({
     name: 'CreateVoucherDialog'
@@ -80,7 +83,7 @@ const props = defineProps({
         required: true
     }
 })
-const emits = defineEmits(['update:visible'])
+const emits = defineEmits(['update:visible', 'handelCreateSuccess'])
 const dialogVisible = computed({
     get() {
         return props.visible
@@ -98,22 +101,22 @@ const validateValueByType = (rule: any, value: any, callback: any) =>
 const state = reactive({
     voucherFormRef: undefined as Undefinable<FormInstance>,
     voucherForm: {
-        type: '0',
-        value: '',
-        expireAt: '',
-        minConsume: '',
-        count: 1
-    },
+        isDiscount: false,
+        amount: undefined,
+        expiredAt: '',
+        minimumExpense: undefined,
+        totalCount: 1
+    } as UndefinedAble<CreateVoucherParam>,
     voucherRule: {
-        value: [
+        amount: [
             { required: true, message: t('voucher.form.placeholder.value'), trigger: 'blur' },
             { validator: validateValueByType, trigger: 'blur' }
         ],
-        expireAt: [
+        expiredAt: [
             { required: true, message: t('voucher.form.placeholder.expireAt'), trigger: 'blur' },
             { validator: validateExpireAt, trigger: 'blur' }
         ],
-        minConsume: [
+        minimumExpense: [
             { required: true, message: t('voucher.form.placeholder.minConsume'), trigger: 'blur' },
             {
                 pattern: /^[1-9]\d{0,3}$/,
@@ -121,7 +124,7 @@ const state = reactive({
                 trigger: 'blur'
             }
         ],
-        count: [
+        totalCount: [
             { required: true, message: t('voucher.form.placeholder.count'), trigger: 'blur' },
             {
                 pattern: /^[1-9]\d{0,2}$/,
@@ -142,12 +145,27 @@ const handleConfirm = async () => {
     if (!state.voucherFormRef) return
     const canCreate = await state.voucherFormRef.validate().catch(() => undefined)
     if (!canCreate) return
-    const a = 2
+    const [, res] = await createVoucher(state.voucherForm as Voucher)
+    if (res === 1) {
+        window.$message.success(t('voucher.message.createSuccess'))
+    } else {
+        window.$message.error(t('voucher.message.createFailed'))
+    }
+    emits('handelCreateSuccess')
+    dialogVisible.value = false
 }
 </script>
 
 <style lang="scss" scoped>
 .input-with-select :deep(.el-input-group__prepend) {
     background-color: var(--el-fill-color-blank);
+}
+
+:deep(.voucher-date-select) {
+    @apply w-220px;
+
+    .el-input__wrapper {
+        @apply w-full;
+    }
 }
 </style>

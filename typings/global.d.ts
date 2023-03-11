@@ -11,6 +11,10 @@ declare type DialogType = {
 
 declare type Undefinable<T> = T | undefined;
 
+declare type UndefinedAble<T> = {
+    [P in keyof T]?: T[P] | undefined
+}
+
 /** 系统菜单 */
 interface SystemMenu {
     /** id */

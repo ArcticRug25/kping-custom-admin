@@ -92,7 +92,6 @@ export default {
         distribute: 'distribute',
         male: 'M',
         female: 'F',
-
         halal: 'halal',
         form: {
             memberName: 'Member Name',
@@ -146,11 +145,29 @@ export default {
                 discount: 'Discount must be a number between 1 and 99'
             }
         },
+        table: {
+            qrcode: 'Qrcode',
+            // 查看二维码
+            qrcodeTag: 'View Qrcode',
+            // 最低消费
+            minimumExpense: 'Min Consume',
+            // 剩余数量
+            remainCount: 'Remain Count',
+            // 总数量
+            totalCount: 'Total Count',
+            // 优惠金额/折扣
+            amount: 'Amount/Discount'
+        },
         dialog: {
             title: 'Create Voucher'
         },
         btn: {
             create: 'Create'
+        },
+        message: {
+            // 票券创建成功
+            createSuccess: 'Voucher created successfully',
+            createFail: 'Voucher creation failed'
         }
     }
 }

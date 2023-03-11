@@ -2,7 +2,7 @@
     <el-dropdown @command="onCommand">
         <div class="flex flex-center">
             <el-avatar :size="26" :src="info.avatar" />
-            <span class="pl-10px">{{ info.userName }}</span>
+            <span class="pl-10px">{{ 'admin' }}</span>
         </div>
         <template #dropdown>
             <el-dropdown-menu>

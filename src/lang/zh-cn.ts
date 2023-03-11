@@ -143,11 +143,23 @@ export default {
                 discount: '票券折扣只能为1-99的数字'
             }
         },
+        table: {
+            qrcode: '二维码',
+            qrcodeTag: '查看二维码',
+            minimumExpense: '最低消费',
+            remainCount: '剩余数量',
+            totalCount: '总数量',
+            amount: '优惠金额/折扣'
+        },
         dialog: {
             title: '创建票券'
         },
         btn: {
             create: '创建票券'
+        },
+        message: {
+            createSuccess: '票券创建成功',
+            createFailed: '票券创建失败'
         }
     }
 }

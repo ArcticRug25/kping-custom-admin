@@ -82,7 +82,7 @@ $menu-width: 220px;
     &-header {
         box-shadow: 0 1px 2px #00152914;
 
-        @apply fixed  h-56px z-1001 flex flex-y-center justify-between bg-white dark:bg-dark;
+        @apply fixed h-56px z-1001 flex flex-y-center justify-between bg-white dark:bg-dark;
     }
 
     &-tab {

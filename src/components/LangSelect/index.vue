@@ -1,6 +1,6 @@
 <template>
     <el-dropdown class="lang-select" trigger="click" @command="handleSetLanguage">
-        <div class="lang-select__icon">
+        <div class="lang-select__icon flex">
             <icon name="fa-language" size="18"></icon>
         </div>
         <template #dropdown>

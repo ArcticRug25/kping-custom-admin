@@ -30,7 +30,7 @@ export interface GetMemberListParam extends PageParam {
     joinEnd?: Date
     actionStart?: Date
     actionEnd?: Date
-    distanceFrom?: number
+    distanceFrom?: number | undefined
     distanceTo?: number
     orderBy?: MemberType[]
     name?: string

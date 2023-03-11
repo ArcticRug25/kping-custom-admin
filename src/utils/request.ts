@@ -149,7 +149,9 @@ export default class Axios {
                     const user = useUserStore()
                     user.token = ''
                     window.location.href = '/' // 跳转登录页
-                    ElMessageBox.alert(t('app.loginExpire'), t('app.tips'), {})
+                    setTimeout(() => {
+                        ElMessageBox.alert(t('app.loginExpire'), t('app.tips'), {})
+                    }, 300)
                 } else if (code === HTTP_CODE.UNPROCESSABLE_ENTITY) {
                     ElMessage({
                         message: t('login.codeError'),

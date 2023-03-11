@@ -10,9 +10,15 @@ export interface Voucher {
     stackable: boolean
     totalCount: number
     transferrable: boolean
-    used: boolean
-    usedAt: null | string
     useWithOther: boolean
+}
+
+export interface CreateVoucherParam {
+    totalCount: number
+    isDiscount: boolean
+    expiredAt: string
+    amount: number
+    minimumExpense: number
 }
 
 export type GetVoucherListParam = PageParam

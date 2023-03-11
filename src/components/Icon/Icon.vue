@@ -26,3 +26,16 @@ withDefaults(
     }
 )
 </script>
+
+<style lang="scss" scoped>
+.c-icon {
+    @apply inline-flex items-center relative;
+
+    &::before {
+        @apply absolute -left-10px -top-20px -bottom-20px -right-10px block bg-transparent;
+
+        /* stylelint-disable-next-line string-quotes */
+        content: '';
+    }
+}
+</style>

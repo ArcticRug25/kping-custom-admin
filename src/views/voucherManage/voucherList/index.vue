@@ -8,14 +8,46 @@
                     >
                 </el-button>
             </template>
-            <el-table-column type="selection" width="55" />
-            <el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+            <el-table-column label="ID" prop="id" width="65" sortable></el-table-column>
+            <el-table-column :label="t('voucher.table.amount')" prop="amount" width="167" sortable>
+                <template #default="scope">
+                    <span v-if="scope.row.isDiscount">{{ scope.row.amount }}%</span>
+                    <span v-else>{{ scope.row.amount }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="t('voucher.table.minimumExpense')"
+                prop="minimumExpense"
+                sortable
+            ></el-table-column>
+            <el-table-column
+                :label="t('voucher.table.remainCount')"
+                prop="remainCount"
+                sortable
+            ></el-table-column>
+            <el-table-column
+                :label="t('voucher.table.totalCount')"
+                prop="totalCount"
+                width="140"
+                sortable
+            ></el-table-column>
             <el-table-column
                 :label="t('voucher.form.expireAt')"
                 prop="expiredAt"
-                width="160"
                 sortable
             ></el-table-column>
+            <el-table-column :label="t('voucher.table.qrcode')" width="120">
+                <template #default="scope">
+                    <el-popover effect="light" trigger="click" placement="top" width="auto">
+                        <template #default>
+                            <el-image :src="scope.row.qrCode" fit="cover" style="width: 150px" />
+                        </template>
+                        <template #reference>
+                            <el-link type="primary">{{ t('voucher.table.qrcodeTag') }}</el-link>
+                        </template>
+                    </el-popover>
+                </template>
+            </el-table-column>
             <template #table-footer>
                 <Pagination
                     v-if="total > 0"
@@ -26,7 +58,11 @@
                 />
             </template>
         </c-table>
-        <CreateVoucherDialog v-model:visible="dialog.visible" :title="dialog.title" />
+        <CreateVoucherDialog
+            v-model:visible="dialog.visible"
+            :title="dialog.title"
+            @handel-create-success="handelCreateSuccess"
+        />
     </PageContainer>
 </template>
 
@@ -71,6 +107,12 @@ const handleCreateVoucher = () => {
         title: t('voucher.dialog.title'),
         visible: true
     }
+}
+
+const handelCreateSuccess = () => {
+    setTimeout(() => {
+        handleQueryVoucherList()
+    }, 300)
 }
 
 await handleQueryVoucherList()

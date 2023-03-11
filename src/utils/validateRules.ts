@@ -1,4 +1,5 @@
 import { useI18n } from '@/lang/index'
+import { CreateVoucherParam } from '../api/model/voucherModel'
 const { t } = useI18n()
 
 export const validateDistance = (rule: any, value: any, callback: any) => {
@@ -23,14 +24,19 @@ export const validateExpireAt = (rule: any, value: string, callback: any) => {
     }
 }
 
-export const validateValue = (rule: any, value: number | string, callback: any, state: any) => {
-    if (!state.type) {
+export const validateValue = (
+    rule: any,
+    value: number | string,
+    callback: any,
+    state: UndefinedAble<CreateVoucherParam>
+) => {
+    if (state.isDiscount === undefined || state.isDiscount === null) {
         return callback(new Error(t('voucher.form.placeholder.type')))
     }
 
-    if (state.type === '0' && (value < 1 || value > 999)) {
+    if (!state.isDiscount && (value < 1 || value > 999)) {
         callback(new Error(t('voucher.form.error.value')))
-    } else if (state.type === '1' && (value < 1 || value > 99)) {
+    } else if (state.isDiscount && (value < 1 || value > 99)) {
         callback(new Error(t('voucher.form.error.discount')))
     } else {
         callback()
